@@ -1,0 +1,3725 @@
+{
+  "name": "My workflow 3",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1AEc9QEO9BAMP1x31V8w5sUOSbGtDqmA27DqFl9YzIs4",
+          "mode": "list",
+          "cachedResultName": "Instagram Research Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AEc9QEO9BAMP1x31V8w5sUOSbGtDqmA27DqFl9YzIs4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "My Reel",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AEc9QEO9BAMP1x31V8w5sUOSbGtDqmA27DqFl9YzIs4/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Username",
+              "displayName": "Username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Views",
+              "displayName": "Views",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Likes",
+              "displayName": "Likes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Comments",
+              "displayName": "Comments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reel_code",
+              "displayName": "Reel_code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Url",
+              "displayName": "Url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Thumbnail",
+              "displayName": "Thumbnail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2880,
+        -64
+      ],
+      "id": "89625d5a-edca-4b89-b831-4c0ae53f9818",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "To9ziwBuNqgM5K5p",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "reels",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -64
+      ],
+      "id": "426b4da8-d800-48a8-af21-b8e0b8ea1e86",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        -64
+      ],
+      "id": "ea4a9aff-0451-4725-b3b7-400441407fad",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/acts/apify~instagram-scraper/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "apify_api_pTOJ8VOPYFahgGI9BSysYapPPXQCGZ3Mw1kF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"directUrls\": [\n    \"{{$json.Url}}\"\n  ],\n  \"resultsType\": \"posts\",\n  \"resultsLimit\": 1\n}",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1408,
+        -64
+      ],
+      "id": "4d4d4025-a872-4c3f-ab6e-6bffae11b53e",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2080,
+        -64
+      ],
+      "id": "5fa670e2-1224-4946-91f8-042a68a5fc57",
+      "name": "Transcribe a recording",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://instagram-scraper-stable-api.p.rapidapi.com/get_ig_user_reels.php",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-key",
+              "value": "09909acac1msh1da48bfef6d538fp1d3597jsnf7c909703853"
+            },
+            {
+              "name": "x-rapidapi-host",
+              "value": "instagram-scraper-stable-api.p.rapidapi.com"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "username_or_url",
+              "value": "nitishrajpute"
+            },
+            {
+              "name": "amount",
+              "value": "10"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        176,
+        -256
+      ],
+      "id": "47022c38-b07a-4f93-be07-c12acf4d3539",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        -256
+      ],
+      "id": "edb1b489-e63e-470d-a429-04947facb641",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "reels",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -256
+      ],
+      "id": "d732eda4-b2cd-4029-b6b2-3213cec0c6ba",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "Views",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        960,
+        -256
+      ],
+      "id": "23fa0271-afeb-4589-9ac7-c09291bd56c8",
+      "name": "Sort1"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        -256
+      ],
+      "id": "63d79ea4-c2d1-4ec8-b388-c52f9d7cbf95",
+      "name": "Limit1"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2080,
+        -256
+      ],
+      "id": "c43b932b-32d9-41d8-9042-d95502dade49",
+      "name": "Transcribe a recording1",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1AEc9QEO9BAMP1x31V8w5sUOSbGtDqmA27DqFl9YzIs4",
+          "mode": "list",
+          "cachedResultName": "Instagram Research Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AEc9QEO9BAMP1x31V8w5sUOSbGtDqmA27DqFl9YzIs4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 641219974,
+          "mode": "list",
+          "cachedResultName": "Competitor Reels",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AEc9QEO9BAMP1x31V8w5sUOSbGtDqmA27DqFl9YzIs4/edit#gid=641219974"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Username",
+              "displayName": "Username",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Views",
+              "displayName": "Views",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Likes",
+              "displayName": "Likes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Comments",
+              "displayName": "Comments",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reel_code",
+              "displayName": "Reel_code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Url",
+              "displayName": "Url",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Thumbnail",
+              "displayName": "Thumbnail",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Type",
+              "displayName": "Type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Hook_analysis",
+              "displayName": "Hook_analysis",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": true
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2880,
+        -640
+      ],
+      "id": "e0f6ed49-5205-46a4-8c86-6b88fd1b3e83",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "To9ziwBuNqgM5K5p",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        -64
+      ],
+      "id": "424d5dd6-22a3-44a3-9ce5-2aaa1369c44e",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "Views",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        960,
+        -64
+      ],
+      "id": "ad66ad98-7530-4c80-9c61-8942f2868fad",
+      "name": "Sort"
+    },
+    {
+      "parameters": {
+        "url": "={{$json[\"videoUrl\"]}}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1856,
+        -64
+      ],
+      "id": "6c593f48-01af-45f4-bbd7-4dbf7242ec6a",
+      "name": "HTTP Request4"
+    },
+    {
+      "parameters": {
+        "url": "={{$json[\"videoUrl\"]}}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1856,
+        -256
+      ],
+      "id": "65ff52ec-0356-4764-ad05-00f6edfa872c",
+      "name": "HTTP Request5"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Analyze this Instagram Reel transcript.\n\nReturn:\n1. Hook used\n2. Emotional trigger\n3. Retention mechanism\n4. Why it performs\n5. CTA style\n6. Virality score out of 10\n\nTranscript:\n{{$json.text}}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2304,
+        -64
+      ],
+      "id": "599db18f-b3a1-460c-8618-01c79639c0ce",
+      "name": "Message a model",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Analyze this Instagram Reel transcript.\n\nReturn:\n1. Hook used\n2. Emotional trigger\n3. Retention mechanism\n4. Why it performs\n5. CTA style\n6. Virality score out of 10\n\nTranscript:\n{{$json.text}}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2304,
+        -256
+      ],
+      "id": "80927434-c5e5-4d7c-84a5-af86e1b5a8dd",
+      "name": "Message a model1",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://instagram-scraper-stable-api.p.rapidapi.com/get_ig_user_reels.php",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-key",
+              "value": "09909acac1msh1da48bfef6d538fp1d3597jsnf7c909703853"
+            },
+            {
+              "name": "x-rapidapi-host",
+              "value": "instagram-scraper-stable-api.p.rapidapi.com"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "username_or_url",
+              "value": "lesics_eng"
+            },
+            {
+              "name": "amount",
+              "value": "10"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        176,
+        -448
+      ],
+      "id": "838e95c4-29d0-414e-b927-b605d23ca1f3",
+      "name": "HTTP Request6"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "reels",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -448
+      ],
+      "id": "59564fa4-bd97-4d5f-a65c-23f9c4c4840c",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        -448
+      ],
+      "id": "b11c97bc-e54e-4084-a4b8-580a56b2711c",
+      "name": "Edit Fields5"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "Views",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        960,
+        -448
+      ],
+      "id": "3625c90c-3d11-41b1-95d7-1d0a76ba77f5",
+      "name": "Sort2"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        -448
+      ],
+      "id": "253a9852-bf24-4f00-8772-a5dc8f87ef20",
+      "name": "Limit2"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        -640
+      ],
+      "id": "402b5d11-0b5c-4c52-98ba-d7bf40d439df",
+      "name": "Limit3"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        -832
+      ],
+      "id": "fdcc94f4-a725-4199-b3a9-5615f37d2e81",
+      "name": "Limit4"
+    },
+    {
+      "parameters": {
+        "maxItems": 3
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1184,
+        -1024
+      ],
+      "id": "e7645ca3-ef8f-4414-899d-3c64d50205d0",
+      "name": "Limit5"
+    },
+    {
+      "parameters": {
+        "url": "https://api.apify.com/v2/acts/apify~instagram-scraper/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "apify_api_pTOJ8VOPYFahgGI9BSysYapPPXQCGZ3Mw1kF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"directUrls\": [\n    \"{{$json.Url}}\"\n  ],\n  \"resultsType\": \"posts\",\n  \"resultsLimit\": 1\n}",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1408,
+        -1024
+      ],
+      "id": "77075c0f-4134-4d53-916b-dec3ffb69b55",
+      "name": "HTTP Request10"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2080,
+        -448
+      ],
+      "id": "57196cfd-575a-49c3-97ba-21d21c5a9f6c",
+      "name": "Transcribe a recording2",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Analyze this Instagram Reel transcript.\n\nReturn:\n1. Hook used\n2. Emotional trigger\n3. Retention mechanism\n4. Why it performs\n5. CTA style\n6. Virality score out of 10\n\nTranscript:\n{{$json.text}}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2304,
+        -448
+      ],
+      "id": "331ef28a-fcdc-4a90-a124-d9d7807a1bc8",
+      "name": "Message a model2",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2080,
+        -640
+      ],
+      "id": "3a1367b8-4785-4f49-a72a-2db11d9ccf36",
+      "name": "Transcribe a recording3",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Analyze this Instagram Reel transcript.\n\nReturn:\n1. Hook used\n2. Emotional trigger\n3. Retention mechanism\n4. Why it performs\n5. CTA style\n6. Virality score out of 10\n\nTranscript:\n{{$json.text}}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2304,
+        -640
+      ],
+      "id": "b5dd220e-2acb-474b-8eae-12d4285444ec",
+      "name": "Message a model3",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2080,
+        -832
+      ],
+      "id": "146127f6-6b23-45c2-8bb0-120fd3d572e4",
+      "name": "Transcribe a recording4",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Analyze this Instagram Reel transcript.\n\nReturn:\n1. Hook used\n2. Emotional trigger\n3. Retention mechanism\n4. Why it performs\n5. CTA style\n6. Virality score out of 10\n\nTranscript:\n{{$json.text}}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2304,
+        -832
+      ],
+      "id": "f1e6d846-5660-46e0-9018-bc22f8362849",
+      "name": "Message a model4",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "operation": "transcribe",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2080,
+        -1024
+      ],
+      "id": "f3593675-02b4-4d1f-a2e3-59ad3361ffa5",
+      "name": "Transcribe a recording5",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1"
+        },
+        "responses": {
+          "values": [
+            {
+              "content": "=Analyze this Instagram Reel transcript.\n\nReturn:\n1. Hook used\n2. Emotional trigger\n3. Retention mechanism\n4. Why it performs\n5. CTA style\n6. Virality score out of 10\n\nTranscript:\n{{$json.text}}"
+            }
+          ]
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 2.3,
+      "position": [
+        2304,
+        -1024
+      ],
+      "id": "fba83404-5ea6-4a4c-bb44-f06b285d09b9",
+      "name": "Message a model5",
+      "credentials": {
+        "openAiApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "Views",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        960,
+        -640
+      ],
+      "id": "84c3a458-945c-453e-83de-d5631cca362e",
+      "name": "Sort3"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "Views",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        960,
+        -832
+      ],
+      "id": "c8a102d4-b46b-4724-a61b-2075bcb4431b",
+      "name": "Sort4"
+    },
+    {
+      "parameters": {
+        "sortFieldsUi": {
+          "sortField": [
+            {
+              "fieldName": "Views",
+              "order": "descending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.sort",
+      "typeVersion": 1,
+      "position": [
+        960,
+        -1024
+      ],
+      "id": "73ef8163-2ca1-4e5b-bd45-4ed4504b4ea7",
+      "name": "Sort5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        -640
+      ],
+      "id": "9dc6e060-d3d5-4c83-bf9f-f978adb5b780",
+      "name": "Edit Fields14"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        -832
+      ],
+      "id": "3bdac720-0762-4c66-92d4-d62930493aa9",
+      "name": "Edit Fields15"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        -1024
+      ],
+      "id": "e7161399-a17e-41f1-bd41-bc1934da7627",
+      "name": "Edit Fields16"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://instagram-scraper-stable-api.p.rapidapi.com/get_ig_user_reels.php",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-key",
+              "value": "09909acac1msh1da48bfef6d538fp1d3597jsnf7c909703853"
+            },
+            {
+              "name": "x-rapidapi-host",
+              "value": "instagram-scraper-stable-api.p.rapidapi.com"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "username_or_url",
+              "value": "thethinkschool"
+            },
+            {
+              "name": "amount",
+              "value": "10"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        176,
+        -640
+      ],
+      "id": "5fc1e4e5-4bb3-4520-9b6f-a57a3b46d80e",
+      "name": "HTTP Request11"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "reels",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -640
+      ],
+      "id": "550d3819-6985-41b9-8550-6220bf58ed8d",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://instagram-scraper-stable-api.p.rapidapi.com/get_ig_user_reels.php",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-key",
+              "value": "09909acac1msh1da48bfef6d538fp1d3597jsnf7c909703853"
+            },
+            {
+              "name": "x-rapidapi-host",
+              "value": "instagram-scraper-stable-api.p.rapidapi.com"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "username_or_url",
+              "value": "abhiandniyu"
+            },
+            {
+              "name": "amount",
+              "value": "10"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        176,
+        -832
+      ],
+      "id": "841e06c3-95f9-456a-8d50-1c2ee53ad15a",
+      "name": "HTTP Request12"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "reels",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -832
+      ],
+      "id": "973aa317-91cc-4114-9f36-d148fd4dcec9",
+      "name": "Split Out4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://instagram-scraper-stable-api.p.rapidapi.com/get_ig_user_reels.php",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-key",
+              "value": "09909acac1msh1da48bfef6d538fp1d3597jsnf7c909703853"
+            },
+            {
+              "name": "x-rapidapi-host",
+              "value": "instagram-scraper-stable-api.p.rapidapi.com"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "username_or_url",
+              "value": "kurzgesagt"
+            },
+            {
+              "name": "amount",
+              "value": "10"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        176,
+        -1024
+      ],
+      "id": "67aeef76-886f-4114-a235-e8ec327c4c20",
+      "name": "HTTP Request13"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "reels",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        512,
+        -1024
+      ],
+      "id": "c7baeb9a-a3b1-4300-91da-0be94525375a",
+      "name": "Split Out5"
+    },
+    {
+      "parameters": {
+        "url": "={{$json[\"videoUrl\"]}}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1856,
+        -1024
+      ],
+      "id": "c90bf603-fe0c-4442-be09-c6778c36fe7b",
+      "name": "HTTP Request14"
+    },
+    {
+      "parameters": {
+        "url": "={{$json[\"videoUrl\"]}}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1856,
+        -832
+      ],
+      "id": "9ce9b55c-26ba-414f-990f-e1a5b5c8c611",
+      "name": "HTTP Request15"
+    },
+    {
+      "parameters": {
+        "url": "={{$json[\"videoUrl\"]}}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1856,
+        -640
+      ],
+      "id": "f8e3981d-3fc6-438d-8665-eba9d7bacbba",
+      "name": "HTTP Request16"
+    },
+    {
+      "parameters": {
+        "url": "={{$json[\"videoUrl\"]}}",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1856,
+        -448
+      ],
+      "id": "af784435-0a76-43fe-b9ae-bc75bad89778",
+      "name": "HTTP Request17"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "You are an Instagram viral content researcher. Your job is to find niche outlier reels — viral content from accounts OUTSIDE the typical competitor set.\n\nUse your tools to:\n1. Search for trending hashtags in this niche related to {{ $vars.professorofhow}}\n2. Find 3-5 viral reels from non-obvious accounts\n3. For each reel, extract: URL, username, estimated views, why it went viral\n\nReturn your findings as a JSON array:\n[\n  {\n    \"username\": \"@handle\",\n    \"reel_url\": \"https://...\",\n    \"estimated_views\": 500000,\n    \"why_viral\": \"...\",\n    \"outlier_reason\": \"...\",\n    \"hook_text\": \"...\",\n    \"hook_type\": \"...\",\n    \"niche_angle\": \"...\"\n  }\n]",
+        "options": {}
+      },
+      "id": "605ee442-f7f8-4614-ba9d-f59e38e4cd2d",
+      "name": "Claude Niche Outlier Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [
+        112,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "claude-sonnet-4-6",
+          "mode": "list",
+          "cachedResultName": "Claude Sonnet 4.6"
+        },
+        "options": {}
+      },
+      "id": "2679b8e9-5f4d-4fd8-a8e2-424a2c90861c",
+      "name": "Niche Outlier Prompt",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.3,
+      "position": [
+        48,
+        464
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": null,
+          "name": "",
+          "__aiGatewayManaged": true
+        }
+      }
+    },
+    {
+      "parameters": {
+        "toolDescription": "Search Instagram for reels by hashtag or keyword to find viral content in a niche",
+        "method": "POST",
+        "url": "'https://instagram-scraper-stable-api.p.rapidapi.com/get_ig_user_followers_v2.php",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {}
+          ]
+        }
+      },
+      "id": "2b0e5cca-f597-4fea-9da6-1b1b992bee27",
+      "name": "Tool: Search Hashtag",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        176,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "toolDescription": "Get profile info and reels for any Instagram username to check their engagement",
+        "url": "https://instagram120.p.rapidapi.com/api/instagram/reels",
+        "sendHeaders": true,
+        "parametersHeaders": {
+          "values": [
+            {}
+          ]
+        },
+        "sendBody": true,
+        "parametersBody": {
+          "values": [
+            {}
+          ]
+        }
+      },
+      "id": "17058d3c-18fd-4c48-870e-eb26026b9d4c",
+      "name": "Tool: Get User Reels",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [
+        304,
+        464
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Parse Claude's JSON output\nconst claudeOutput = $input.first().json.output || $input.first().json.text || '';\n\nlet outliers = [];\ntry {\n  // Find JSON array in Claude's response\n  const jsonMatch = claudeOutput.match(/\\[\\s*\\{[\\s\\S]*\\}\\s*\\]/);\n  if (jsonMatch) {\n    outliers = JSON.parse(jsonMatch[0]);\n  }\n} catch (e) {\n  console.log('Parse error:', e.message);\n  outliers = [{ raw_output: claudeOutput, parse_error: e.message }];\n}\n\nreturn outliers.map(item => ({ json: item }));\n"
+      },
+      "id": "7715d0cb-05ce-47b5-add4-d88b616cce76",
+      "name": "Parse Claude Output",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        512,
+        240
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1AEc9QEO9BAMP1x31V8w5sUOSbGtDqmA27DqFl9YzIs4",
+          "mode": "list",
+          "cachedResultName": "Instagram Research Agent",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1AEc9QEO9BAMP1x31V8w5sUOSbGtDqmA27DqFl9YzIs4/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "value": "Niche Outliers"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "9210b887-4983-4726-bcd0-1043c3815791",
+      "name": "Write → Niche Outliers Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        736,
+        240
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "To9ziwBuNqgM5K5p",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{$json[\"videoUrl\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        -256
+      ],
+      "id": "98b0dc15-de8a-43dc-abeb-aabe1bb139c9",
+      "name": "Edit Fields17"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{$json[\"videoUrl\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        -448
+      ],
+      "id": "77bd5e49-10b8-43cd-8f6b-473dfaab656c",
+      "name": "Edit Fields19"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{$json[\"videoUrl\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        -832
+      ],
+      "id": "52d93fca-df8c-478f-8887-43ddd095699a",
+      "name": "Edit Fields20"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{ $json.ownerUsername }}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{ $json.videoViewCount }}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{ $json.likesCount }}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{ $json.commentsCount }}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{ $json.shortCode }}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{ $json.inputUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{ $json.displayUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{ $json.type }}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{$json[\"videoUrl\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        -1024
+      ],
+      "id": "57e0d9b4-d13b-4a79-938e-b839bb26e8f5",
+      "name": "Edit Fields21"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{$json[\"videoUrl\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        -640
+      ],
+      "id": "41421d8a-4df4-440f-8999-36aeba98c3d2",
+      "name": "Edit Fields22"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{ $('HTTP Request14').item.json.Username }}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{ $('HTTP Request14').item.json.Views }}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{ $('HTTP Request14').item.json.Likes }}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{ $('HTTP Request14').item.json.Comments }}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{ $('HTTP Request14').item.json.Reel_code }}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{ $('HTTP Request14').item.json.Url }}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{ $('HTTP Request14').item.json.Thumbnail }}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{ $('HTTP Request14').item.json.Type }}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{ $('HTTP Request14').item.json.videoUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "13acfc55-33c7-4bb0-930a-01b5aff7346e",
+              "name": "Hook_analysis",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2656,
+        -1024
+      ],
+      "id": "76e845a8-e337-4f5d-8038-785886f0b80e",
+      "name": "Edit Fields26"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://instagram-scraper-stable-api.p.rapidapi.com/get_ig_user_reels.php",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-rapidapi-key",
+              "value": "09909acac1msh1da48bfef6d538fp1d3597jsnf7c909703853"
+            },
+            {
+              "name": "x-rapidapi-host",
+              "value": "instagram-scraper-stable-api.p.rapidapi.com"
+            }
+          ]
+        },
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "username_or_url",
+              "value": "professorofhow"
+            },
+            {
+              "name": "amount",
+              "value": "10"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        176,
+        -64
+      ],
+      "id": "f9779db4-fb6d-4d85-88ef-2197967bef97",
+      "name": "My Reels"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 5 * * 0"
+            },
+            {}
+          ]
+        }
+      },
+      "id": "5b00e800-dd66-447a-8c99-a159d68ea13b",
+      "name": "Every Sunday 5AM",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -176,
+        -448
+      ]
+    },
+    {
+      "parameters": {
+        "url": "https://api.apify.com/v2/acts/apify~instagram-scraper/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "apify_api_pTOJ8VOPYFahgGI9BSysYapPPXQCGZ3Mw1kF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"directUrls\": [\n    \"{{$json.Url}}\"\n  ],\n  \"resultsType\": \"posts\",\n  \"resultsLimit\": 1\n}",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1408,
+        -832
+      ],
+      "id": "296fb38b-727e-4d22-a624-eb9f64d7e075",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "https://api.apify.com/v2/acts/apify~instagram-scraper/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "apify_api_pTOJ8VOPYFahgGI9BSysYapPPXQCGZ3Mw1kF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"directUrls\": [\n    \"{{$json.Url}}\"\n  ],\n  \"resultsType\": \"posts\",\n  \"resultsLimit\": 1\n}",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1408,
+        -640
+      ],
+      "id": "5a108107-e809-48cc-a17f-ff519451250c",
+      "name": "HTTP Request18"
+    },
+    {
+      "parameters": {
+        "url": "https://api.apify.com/v2/acts/apify~instagram-scraper/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "apify_api_pTOJ8VOPYFahgGI9BSysYapPPXQCGZ3Mw1kF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"directUrls\": [\n    \"{{$json.Url}}\"\n  ],\n  \"resultsType\": \"posts\",\n  \"resultsLimit\": 1\n}",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1408,
+        -448
+      ],
+      "id": "71c888c8-4da7-4305-b085-69144d76b71e",
+      "name": "HTTP Request19"
+    },
+    {
+      "parameters": {
+        "url": "https://api.apify.com/v2/acts/apify~instagram-scraper/run-sync-get-dataset-items",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "token",
+              "value": "apify_api_pTOJ8VOPYFahgGI9BSysYapPPXQCGZ3Mw1kF"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"directUrls\": [\n    \"{{$json.Url}}\"\n  ],\n  \"resultsType\": \"posts\",\n  \"resultsLimit\": 1\n}",
+        "options": {
+          "response": {
+            "response": {}
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1408,
+        -256
+      ],
+      "id": "bd25f734-8c1e-44e4-88b9-6980f32abe4a",
+      "name": "HTTP Request20"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{ $('HTTP Request14').item.json.Username }}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{ $('HTTP Request14').item.json.Views }}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{ $('HTTP Request14').item.json.Likes }}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{ $('HTTP Request14').item.json.Comments }}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{ $('HTTP Request14').item.json.Reel_code }}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{ $('HTTP Request14').item.json.Url }}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{ $('HTTP Request14').item.json.Thumbnail }}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{ $('HTTP Request14').item.json.Type }}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{ $('HTTP Request14').item.json.videoUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "13acfc55-33c7-4bb0-930a-01b5aff7346e",
+              "name": "Hook_analysis",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2656,
+        -832
+      ],
+      "id": "5a41b6a0-c718-4cbf-a90c-9f7b17e5f818",
+      "name": "Edit Fields28"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{ $('HTTP Request14').item.json.Username }}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{ $('HTTP Request14').item.json.Views }}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{ $('HTTP Request14').item.json.Likes }}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{ $('HTTP Request14').item.json.Comments }}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{ $('HTTP Request14').item.json.Reel_code }}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{ $('HTTP Request14').item.json.Url }}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{ $('HTTP Request14').item.json.Thumbnail }}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{ $('HTTP Request14').item.json.Type }}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{ $('HTTP Request14').item.json.videoUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "13acfc55-33c7-4bb0-930a-01b5aff7346e",
+              "name": "Hook_analysis",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2656,
+        -640
+      ],
+      "id": "37a7965c-a86d-4888-a89f-0b03a91ebb0f",
+      "name": "Edit Fields29"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{ $('HTTP Request14').item.json.Username }}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{ $('HTTP Request14').item.json.Views }}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{ $('HTTP Request14').item.json.Likes }}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{ $('HTTP Request14').item.json.Comments }}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{ $('HTTP Request14').item.json.Reel_code }}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{ $('HTTP Request14').item.json.Url }}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{ $('HTTP Request14').item.json.Thumbnail }}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{ $('HTTP Request14').item.json.Type }}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{ $('HTTP Request14').item.json.videoUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "13acfc55-33c7-4bb0-930a-01b5aff7346e",
+              "name": "Hook_analysis",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2656,
+        -448
+      ],
+      "id": "59ccca33-93b1-4013-b6b9-cda912c41aee",
+      "name": "Edit Fields30"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{ $('HTTP Request14').item.json.Username }}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{ $('HTTP Request14').item.json.Views }}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{ $('HTTP Request14').item.json.Likes }}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{ $('HTTP Request14').item.json.Comments }}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{ $('HTTP Request14').item.json.Reel_code }}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{ $('HTTP Request14').item.json.Url }}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{ $('HTTP Request14').item.json.Thumbnail }}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{ $('HTTP Request14').item.json.Type }}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{ $('HTTP Request14').item.json.videoUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "13acfc55-33c7-4bb0-930a-01b5aff7346e",
+              "name": "Hook_analysis",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2656,
+        -256
+      ],
+      "id": "c62e4fda-a29f-4528-892e-b1943cb12bfb",
+      "name": "Edit Fields31"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{ $('HTTP Request14').item.json.Username }}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{ $('HTTP Request14').item.json.Views }}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{ $('HTTP Request14').item.json.Likes }}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{ $('HTTP Request14').item.json.Comments }}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{ $('HTTP Request14').item.json.Reel_code }}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{ $('HTTP Request14').item.json.Url }}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{ $('HTTP Request14').item.json.Thumbnail }}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{ $('HTTP Request14').item.json.Type }}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{ $('HTTP Request14').item.json.videoUrl }}",
+              "type": "string"
+            },
+            {
+              "id": "13acfc55-33c7-4bb0-930a-01b5aff7346e",
+              "name": "Hook_analysis",
+              "value": "={{ $json.output[0].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2656,
+        -64
+      ],
+      "id": "ec1ac02a-1627-4410-a77b-b721001798b5",
+      "name": "Edit Fields27"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e20bccd1-3233-4553-9497-29ffaef84a1c",
+              "name": "Username",
+              "value": "={{$json[\"node\"][\"media\"][\"user\"][\"id\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "3d93cf95-fa1f-4ff3-893c-b2a2bc5595bc",
+              "name": "Views",
+              "value": "={{$json[\"node\"][\"media\"][\"play_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e2d19a30-5dc7-4689-ab7e-bb111d32f8f1",
+              "name": "Likes",
+              "value": "={{$json[\"node\"][\"media\"][\"like_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "4292d3ea-ac28-49e0-a1f3-4faf95ea50c2",
+              "name": "Comments",
+              "value": "={{$json[\"node\"][\"media\"][\"comment_count\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "42a55a22-4d69-4fbb-b60b-a217cff9f7b0",
+              "name": "Reel_code",
+              "value": "={{$json[\"node\"][\"media\"][\"code\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "f94e21e3-ba46-477e-80d6-5c05d073c593",
+              "name": "Url",
+              "value": "={{\"https://www.instagram.com/reel/\" + $json[\"node\"][\"media\"][\"code\"] + \"/\"}}",
+              "type": "string"
+            },
+            {
+              "id": "94f8a77d-1329-45dc-91ec-0a5051c8b154",
+              "name": "Thumbnail",
+              "value": "={{$json[\"node\"][\"media\"][\"image_versions2\"][\"candidates\"][0][\"url\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "e40f5182-d309-4be3-8b3d-31d3e1db529a",
+              "name": "Type",
+              "value": "={{$json[\"node\"][\"media\"][\"product_type\"]}}",
+              "type": "string"
+            },
+            {
+              "id": "515eb38b-7b18-4349-986d-5eab4349504c",
+              "name": "videoUrl",
+              "value": "={{$json[\"videoUrl\"]}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        -64
+      ],
+      "id": "6c237ea4-37a1-4b31-914c-c9eed9445126",
+      "name": "Edit Fields18"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Append row in sheet": {
+      "main": [
+        []
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Sort1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort1": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording1": {
+      "main": [
+        [
+          {
+            "node": "Message a model1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Sort",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields27",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields31",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording2": {
+      "main": [
+        [
+          {
+            "node": "Message a model2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording3": {
+      "main": [
+        [
+          {
+            "node": "Message a model3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording4": {
+      "main": [
+        [
+          {
+            "node": "Message a model4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording5": {
+      "main": [
+        [
+          {
+            "node": "Message a model5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields5": {
+      "main": [
+        [
+          {
+            "node": "Sort2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort2": {
+      "main": [
+        [
+          {
+            "node": "Limit2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit2": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields30",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request11": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields14": {
+      "main": [
+        [
+          {
+            "node": "Sort3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort3": {
+      "main": [
+        [
+          {
+            "node": "Limit3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit3": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request18",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request12": {
+      "main": [
+        [
+          {
+            "node": "Split Out4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields15": {
+      "main": [
+        [
+          {
+            "node": "Sort4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort4": {
+      "main": [
+        [
+          {
+            "node": "Limit4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit4": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model4": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields28",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model3": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields29",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model5": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields26",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request10": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields21",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit5": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sort5": {
+      "main": [
+        [
+          {
+            "node": "Limit5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields16": {
+      "main": [
+        [
+          {
+            "node": "Sort5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out5": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request13": {
+      "main": [
+        [
+          {
+            "node": "Split Out5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request14": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request15": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request16": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request17": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Claude Niche Outlier Agent": {
+      "main": [
+        [
+          {
+            "node": "Parse Claude Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Niche Outlier Prompt": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Claude Niche Outlier Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool: Search Hashtag": {
+      "ai_tool": [
+        [
+          {
+            "node": "Claude Niche Outlier Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tool: Get User Reels": {
+      "ai_tool": [
+        [
+          {
+            "node": "Claude Niche Outlier Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Claude Output": {
+      "main": [
+        [
+          {
+            "node": "Write → Niche Outliers Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields17": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields19": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields22": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields20": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields21": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields26": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "My Reels": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every Sunday 5AM": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request13",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request12",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request11",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request6",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "HTTP Request2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "My Reels",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Claude Niche Outlier Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields20",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request18": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields22",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request19": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields19",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request20": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields17",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields28": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields29": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields30": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields31": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields27": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields18": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "0ba7ed89-819b-4f2d-aaa0-b1ddcd40799b",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "e48fea3810bc2bea57aec14d9f4c024de73929783824a40258e7633c1f65de86"
+  },
+  "id": "eQKwV28UuRHo2JIR",
+  "tags": []
+}
